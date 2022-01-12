@@ -37,7 +37,7 @@ namespace CambiarIP
             // libre
             // 
             this.libre.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.libre.Location = new System.Drawing.Point(12, 12);
+            this.libre.Location = new System.Drawing.Point(8, 8);
             this.libre.Name = "libre";
             this.libre.Size = new System.Drawing.Size(79, 57);
             this.libre.TabIndex = 0;
@@ -48,7 +48,7 @@ namespace CambiarIP
             // telmex
             // 
             this.telmex.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.telmex.Location = new System.Drawing.Point(107, 12);
+            this.telmex.Location = new System.Drawing.Point(93, 8);
             this.telmex.Name = "telmex";
             this.telmex.Size = new System.Drawing.Size(79, 57);
             this.telmex.TabIndex = 1;
@@ -60,7 +60,7 @@ namespace CambiarIP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(197, 82);
+            this.ClientSize = new System.Drawing.Size(179, 74);
             this.Controls.Add(this.telmex);
             this.Controls.Add(this.libre);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

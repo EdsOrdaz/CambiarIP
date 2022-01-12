@@ -17,8 +17,25 @@ namespace CambiarIP
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            IPHostEntry host; 
+            string localIP = ""; 
+            host = Dns.GetHostEntry(Dns.GetHostName());
+
+            foreach (IPAddress ip in host.AddressList) 
+            { 
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    Console.WriteLine(AddressFamily.InterNetwork);
+                    localIP = ip.ToString(); 
+                    break; 
+                } 
+            }
+            Console.WriteLine(localIP);
+            Console.WriteLine(localIP);
+            Console.WriteLine(localIP);
+
             DateTime hoy = DateTime.Now;
-            DateTime exp = DateTime.Parse("2022/01/13");
+            DateTime exp = DateTime.Parse("2022/01/20");
             int result = DateTime.Compare(hoy, exp);
 
             Console.WriteLine(result);
