@@ -257,7 +257,7 @@ namespace CambiarIP
 
         private void s252_Click(object sender, EventArgs e)
         {
-            Puerta_de_Enlace("172.16.16.252", true, "Puerta de enlace cambiada a 172.16.18.252");
+            Puerta_de_Enlace("172.16.16.252", true, "Puerta de enlace cambiada a 172.16.16.252");
             MessageBox.Show("Puerta de enlace cambiada.", "Cmabiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Form1_Load(sender, e);
         }
