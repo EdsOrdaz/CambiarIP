@@ -54,6 +54,7 @@ namespace CambiarIP
             this.ping = new System.Windows.Forms.ToolStripMenuItem();
             this.dhcpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.actializarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.certificadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Activar = new System.Windows.Forms.Button();
             this.ip4 = new System.Windows.Forms.TextBox();
             this.ip3 = new System.Windows.Forms.TextBox();
@@ -62,7 +63,6 @@ namespace CambiarIP
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.certificadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -286,6 +286,13 @@ namespace CambiarIP
             this.actializarToolStripMenuItem.Text = "Actualizar";
             this.actializarToolStripMenuItem.Click += new System.EventHandler(this.actializarToolStripMenuItem_Click);
             // 
+            // certificadoToolStripMenuItem
+            // 
+            this.certificadoToolStripMenuItem.Name = "certificadoToolStripMenuItem";
+            this.certificadoToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
+            this.certificadoToolStripMenuItem.Text = "Certificado";
+            this.certificadoToolStripMenuItem.Click += new System.EventHandler(this.certificadoToolStripMenuItem_Click);
+            // 
             // Activar
             // 
             this.Activar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -359,13 +366,6 @@ namespace CambiarIP
             this.label4.TabIndex = 33;
             this.label4.Text = ".";
             // 
-            // certificadoToolStripMenuItem
-            // 
-            this.certificadoToolStripMenuItem.Name = "certificadoToolStripMenuItem";
-            this.certificadoToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
-            this.certificadoToolStripMenuItem.Text = "Certificado";
-            this.certificadoToolStripMenuItem.Click += new System.EventHandler(this.certificadoToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,7 +404,7 @@ namespace CambiarIP
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Cambiar IP";
+            this.Text = "Cambiar IP - V1.1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();

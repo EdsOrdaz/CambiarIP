@@ -79,7 +79,6 @@ namespace CambiarIP
             mask3.Text = mask_separada[2];
             mask4.Text = mask_separada[3];
 
-            //Console.WriteLine("Puerta: " + GetGateway().ToString());
             String[] puerta_enlace = GetGateway().ToString().Split('.');
             gate1.Text = puerta_enlace[0];
             gate2.Text = puerta_enlace[1];
@@ -112,8 +111,15 @@ namespace CambiarIP
                     break;
                 };
             }
+            if (result == null)
+            {
+                return System.Net.IPAddress.Parse("0.0.0.0");
 
-            return result;
+            }
+            else
+            {
+                return result;
+            }
         }
 
 
@@ -147,7 +153,7 @@ namespace CambiarIP
             }
         }
 
-        public void Puerta_de_Enlace(string gateway)
+        public void Puerta_de_Enlace(string gateway, bool mostrarmsj=false, String msj="")
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
@@ -163,6 +169,10 @@ namespace CambiarIP
 
                         newGateway["DefaultIPGateway"] = new string[] { gateway };
                         setGateway = objMO.InvokeMethod("SetGateways", newGateway, null);
+                        if(mostrarmsj == true)
+                        {
+                            MessageBox.Show(msj+"\n\nAdaptador: " + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -196,8 +206,9 @@ namespace CambiarIP
                         MessageBox.Show("Se activo DHCP en el adaptador\n" + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         break;
                     }
-                    catch (Exception)
+                    catch (Exception error)
                     {
+                        MessageBox.Show("Error al activar DHCP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         throw;
                     }
                 }
@@ -240,14 +251,13 @@ namespace CambiarIP
 
         private void s253_Click(object sender, EventArgs e)
         {
-            Puerta_de_Enlace("172.16.18.253");
-            MessageBox.Show("Puerta de enlace cambiada.", "Cmabiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Puerta_de_Enlace("172.16.18.253", true, "Puerta de enlace cambiada a 172.16.18.253");
             Form1_Load(sender, e);
         }
 
         private void s252_Click(object sender, EventArgs e)
         {
-            Puerta_de_Enlace("172.16.16.252");
+            Puerta_de_Enlace("172.16.16.252", true, "Puerta de enlace cambiada a 172.16.18.252");
             MessageBox.Show("Puerta de enlace cambiada.", "Cmabiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
             Form1_Load(sender, e);
         }
@@ -265,14 +275,12 @@ namespace CambiarIP
             String gateway = gate1.Text + "." + gate2.Text + "." + gate3.Text + "." + gate4.Text;
 
             IP(ip, mask);
-            Puerta_de_Enlace(gateway);
             DNS("8.8.8.8");
+            Puerta_de_Enlace(gateway, true, "IP Cambiada");
 
             Console.WriteLine(ip);
             Console.WriteLine(mask);
             Console.WriteLine(gateway);
-
-            MessageBox.Show("IP Cambiada.", "Cambias IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void actializarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -323,5 +331,6 @@ namespace CambiarIP
                 MessageBox.Show("Error al instalar el certificado.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
