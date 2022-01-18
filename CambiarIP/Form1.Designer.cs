@@ -49,8 +49,8 @@ namespace CambiarIP
             this.label12 = new System.Windows.Forms.Label();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.salida = new System.Windows.Forms.ToolStripMenuItem();
-            this.s253 = new System.Windows.Forms.ToolStripMenuItem();
-            this.s252 = new System.Windows.Forms.ToolStripMenuItem();
+            this.IPEdson = new System.Windows.Forms.ToolStripMenuItem();
+            this.activarDHCPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ping = new System.Windows.Forms.ToolStripMenuItem();
             this.actializarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.certificadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,9 +62,8 @@ namespace CambiarIP
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.activarDHCPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.IPEdson = new System.Windows.Forms.ToolStripMenuItem();
-            this.ip_anterior_menu = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -246,28 +245,27 @@ namespace CambiarIP
             // salida
             // 
             this.salida.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.s253,
-            this.s252,
             this.IPEdson,
-            this.ip_anterior_menu,
+            this.cargarIPToolStripMenuItem,
+            this.guardarIPToolStripMenuItem,
             this.activarDHCPToolStripMenuItem});
             this.salida.Name = "salida";
             this.salida.Size = new System.Drawing.Size(41, 20);
             this.salida.Text = "Mas";
             // 
-            // s253
+            // IPEdson
             // 
-            this.s253.Name = "s253";
-            this.s253.Size = new System.Drawing.Size(180, 22);
-            this.s253.Text = "Salida por 18.253";
-            this.s253.Click += new System.EventHandler(this.s253_Click);
+            this.IPEdson.Name = "IPEdson";
+            this.IPEdson.Size = new System.Drawing.Size(180, 22);
+            this.IPEdson.Text = "IP Libre";
+            this.IPEdson.Click += new System.EventHandler(this.IPEdson_Click);
             // 
-            // s252
+            // activarDHCPToolStripMenuItem
             // 
-            this.s252.Name = "s252";
-            this.s252.Size = new System.Drawing.Size(180, 22);
-            this.s252.Text = "Salida por 16.252";
-            this.s252.Click += new System.EventHandler(this.s252_Click);
+            this.activarDHCPToolStripMenuItem.Name = "activarDHCPToolStripMenuItem";
+            this.activarDHCPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.activarDHCPToolStripMenuItem.Text = "Activar DHCP";
+            this.activarDHCPToolStripMenuItem.Click += new System.EventHandler(this.activarDHCPToolStripMenuItem_Click);
             // 
             // ping
             // 
@@ -363,26 +361,19 @@ namespace CambiarIP
             this.label4.TabIndex = 33;
             this.label4.Text = ".";
             // 
-            // activarDHCPToolStripMenuItem
+            // cargarIPToolStripMenuItem
             // 
-            this.activarDHCPToolStripMenuItem.Name = "activarDHCPToolStripMenuItem";
-            this.activarDHCPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.activarDHCPToolStripMenuItem.Text = "Activar DHCP";
-            this.activarDHCPToolStripMenuItem.Click += new System.EventHandler(this.activarDHCPToolStripMenuItem_Click);
+            this.cargarIPToolStripMenuItem.Name = "cargarIPToolStripMenuItem";
+            this.cargarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cargarIPToolStripMenuItem.Text = "Cargar IP";
+            this.cargarIPToolStripMenuItem.Click += new System.EventHandler(this.cargarIPToolStripMenuItem_Click);
             // 
-            // IPEdson
+            // guardarIPToolStripMenuItem
             // 
-            this.IPEdson.Name = "IPEdson";
-            this.IPEdson.Size = new System.Drawing.Size(180, 22);
-            this.IPEdson.Text = "IP Libre";
-            this.IPEdson.Click += new System.EventHandler(this.IPEdson_Click);
-            // 
-            // ip_anterior_menu
-            // 
-            this.ip_anterior_menu.Name = "ip_anterior_menu";
-            this.ip_anterior_menu.Size = new System.Drawing.Size(180, 22);
-            this.ip_anterior_menu.Text = "IP Anterior";
-            this.ip_anterior_menu.Click += new System.EventHandler(this.ip_anterior_menu_Click);
+            this.guardarIPToolStripMenuItem.Name = "guardarIPToolStripMenuItem";
+            this.guardarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.guardarIPToolStripMenuItem.Text = "Guardar IP";
+            this.guardarIPToolStripMenuItem.Click += new System.EventHandler(this.guardarIPToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -422,7 +413,7 @@ namespace CambiarIP
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Cambiar IP - V1.2";
+            this.Text = "Cambiar IP - ";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menu.ResumeLayout(false);
             this.menu.PerformLayout();
@@ -451,8 +442,6 @@ namespace CambiarIP
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.MenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem salida;
-        private System.Windows.Forms.ToolStripMenuItem s253;
-        private System.Windows.Forms.ToolStripMenuItem s252;
         private System.Windows.Forms.ToolStripMenuItem ping;
         private System.Windows.Forms.Button Activar;
         private System.Windows.Forms.TextBox ip4;
@@ -466,7 +455,8 @@ namespace CambiarIP
         private System.Windows.Forms.ToolStripMenuItem certificadoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem activarDHCPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem IPEdson;
-        private System.Windows.Forms.ToolStripMenuItem ip_anterior_menu;
+        private System.Windows.Forms.ToolStripMenuItem cargarIPToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem guardarIPToolStripMenuItem;
     }
 }
 

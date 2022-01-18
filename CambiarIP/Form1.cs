@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Management;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace CambiarIP
@@ -13,10 +16,10 @@ namespace CambiarIP
     public partial class Form1 : Form
     {
         /*
-         *  V1.3
+         *  V1.4
         */
-        private static String version = "V1.3";
-        private static DateTime expira= DateTime.Parse("2022/01/24");
+        private static String version = "V1.4";
+        private static DateTime expira = DateTime.Parse("2022/01/28");
 
         public Form1()
         {
@@ -26,8 +29,33 @@ namespace CambiarIP
         String mask_anterior = "";
         String puerta_anterior = "";
 
+        public bool IsUserAdministrator()
+        {
+            bool isAdmin;
+            try
+            {
+                WindowsIdentity user = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(user);
+                isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                isAdmin = false;
+            }
+            catch (Exception)
+            {
+                isAdmin = false;
+            }
+            return isAdmin;
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (!IsUserAdministrator())
+            {
+                MessageBox.Show("Debe iniciarse en modo Administrador.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Application.Exit();
+            }
             this.Text = "Cambiar IP - " + version;
             DateTime hoy = DateTime.Now;
             int result = DateTime.Compare(hoy, expira);
@@ -45,8 +73,8 @@ namespace CambiarIP
             string mascara = "";
             host = Dns.GetHostEntry(Dns.GetHostName());
 
-            foreach (IPAddress ip in host.AddressList) 
-            { 
+            foreach (IPAddress ip in host.AddressList)
+            {
                 if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
                     localIP = ip.ToString();
@@ -66,8 +94,8 @@ namespace CambiarIP
                             }
                         }
                     }
-                    break; 
-                } 
+                    break;
+                }
             }
 
 
@@ -128,7 +156,6 @@ namespace CambiarIP
             }
         }
 
-
         public void IP(string ip_address, string subnet_mask)
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
@@ -149,9 +176,9 @@ namespace CambiarIP
 
                         setIP = objMO.InvokeMethod("EnableStatic", newIP, null);
                     }
-                    catch (Exception)
+                    catch (Exception error)
                     {
-                        throw;
+                        MessageBox.Show("Error al cambiar IP y Mascara\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
 
 
@@ -159,7 +186,7 @@ namespace CambiarIP
             }
         }
 
-        public void Puerta_de_Enlace(string gateway, bool mostrarmsj=false, String msj="")
+        public void Puerta_de_Enlace(string gateway, bool mostrarmsj = false, String msj = "")
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
@@ -175,20 +202,19 @@ namespace CambiarIP
 
                         newGateway["DefaultIPGateway"] = new string[] { gateway };
                         setGateway = objMO.InvokeMethod("SetGateways", newGateway, null);
-                        if(mostrarmsj == true)
+                        if (mostrarmsj == true)
                         {
-                            MessageBox.Show(msj+"\n\nAdaptador: " + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(msj + "\n\nAdaptador: " + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Error al cambiar la puerta de enlace.\n\nError: "+ex.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
+                        MessageBox.Show("Error al cambiar la puerta de enlace.\n\nError: " + ex.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
-        
+
         public void DNS(string DNS)
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
@@ -223,18 +249,6 @@ namespace CambiarIP
             }
         }
 
-        private void s253_Click(object sender, EventArgs e)
-        {
-            Puerta_de_Enlace("172.16.18.253", true, "Puerta de enlace cambiada a 172.16.18.253");
-            Form1_Load(sender, e);
-        }
-
-        private void s252_Click(object sender, EventArgs e)
-        {
-            Puerta_de_Enlace("172.16.16.252", true, "Puerta de enlace cambiada a 172.16.16.252");
-            Form1_Load(sender, e);
-        }
-
         private void ping_Click(object sender, EventArgs e)
         {
             string command = "/C ping 8.8.8.8 -t";
@@ -250,10 +264,6 @@ namespace CambiarIP
             IP(ip, mask);
             DNS("8.8.8.8");
             Puerta_de_Enlace(gateway, true, "IP Cambiada");
-
-            Console.WriteLine(ip);
-            Console.WriteLine(mask);
-            Console.WriteLine(gateway);
         }
 
         private void actializarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -278,6 +288,7 @@ namespace CambiarIP
 
         private void certificadoToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
             OpenFileDialog choofdlog = new OpenFileDialog();
             choofdlog.Filter = "Certificate UNNE|*.crt";
             //choofdlog.Filter = "All Files (*.*)|*.*";
@@ -303,6 +314,7 @@ namespace CambiarIP
             {
                 MessageBox.Show("Error al instalar el certificado.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void activarDHCPToolStripMenuItem_Click(object sender, EventArgs e)
@@ -339,26 +351,79 @@ namespace CambiarIP
 
         private void IPEdson_Click(object sender, EventArgs e)
         {
-            ip_anterior = ip1.Text + "." + ip2.Text + "." + ip3.Text + "." + ip4.Text;
-            mask_anterior = mask1.Text + "." + mask2.Text + "." + mask3.Text + "." + mask4.Text;
-            puerta_anterior = gate1.Text + "." + gate2.Text + "." + gate3.Text + "." + gate4.Text;
             IP("172.16.25.230", "255.255.240.0");
             DNS("8.8.8.8");
             Puerta_de_Enlace("172.16.16.252", true, "IP Cambiada");
             Form1_Load(sender, e);
         }
 
-        private void ip_anterior_menu_Click(object sender, EventArgs e)
+        private void guardarIPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(String.IsNullOrEmpty(ip_anterior))
+            ip_anterior = ip1.Text + "." + ip2.Text + "." + ip3.Text + "." + ip4.Text;
+            mask_anterior = mask1.Text + "." + mask2.Text + "." + mask3.Text + "." + mask4.Text;
+            puerta_anterior = gate1.Text + "." + gate2.Text + "." + gate3.Text + "." + gate4.Text;
+
+            try
             {
-                MessageBox.Show("No hay IP guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "IP (*.ip) |*.ip";
+                dialog.FileName = Environment.MachineName.ToString();
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (Stream s = dialog.OpenFile())
+                    {
+                        using (StreamWriter sw = new StreamWriter(s))
+                        {
+                            sw.WriteLine(ip_anterior);
+                            sw.WriteLine(mask_anterior);
+                            sw.WriteLine(puerta_anterior);
+                        }
+                    }
+                }
+                MessageBox.Show("IP Guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            IP(ip_anterior, mask_anterior);
-            DNS("8.8.8.8");
-            Puerta_de_Enlace(puerta_anterior, true, "IP Cambiada");
-            Form1_Load(sender, e);
+            catch (Exception error)
+            {
+                MessageBox.Show("Error al guardar la IP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void cargarIPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "IP (*.ip) |*.ip";
+                dialog.Title = "Selecciona el archivo IP  a cargar";
+
+                String ip = "";
+                String mask = "";
+                String puerta = "";
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamReader reader = new StreamReader(dialog.FileName))
+                    {
+                        string line;
+                        int l = 0;
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            if (l == 0) { ip = line; }
+                            if (l == 1) { mask = line; }
+                            if (l == 2) { puerta = line; break; }
+                            l++;
+                        }
+                    }
+                }
+                IP(ip, mask);
+                DNS("8.8.8.8");
+                Puerta_de_Enlace(puerta, true, "IP Cargada");
+            }
+            catch (Exception error)
+            {
+                MessageBox.Show("Error al cargar la IP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
