@@ -380,8 +380,12 @@ namespace CambiarIP
                             sw.WriteLine(puerta_anterior);
                         }
                     }
+                    MessageBox.Show("IP Guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                MessageBox.Show("IP Guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                {
+                    MessageBox.Show("No se guardo la IP.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception error)
             {
@@ -415,10 +419,14 @@ namespace CambiarIP
                             l++;
                         }
                     }
+                    IP(ip, mask);
+                    DNS("8.8.8.8");
+                    Puerta_de_Enlace(puerta, true, "IP Cargada");
                 }
-                IP(ip, mask);
-                DNS("8.8.8.8");
-                Puerta_de_Enlace(puerta, true, "IP Cargada");
+                else
+                {
+                    MessageBox.Show("No se cargo la IP.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
             catch (Exception error)
             {
