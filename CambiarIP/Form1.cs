@@ -16,9 +16,27 @@ namespace CambiarIP
     public partial class Form1 : Form
     {
         /*
-         *  V1.4
+         V 1.4.1
+        - Se agrega la MAC en el archivo de guardardo
+
+         V 1.4
+        - Se eliminan salidas 18.253 y 18.252
+        - Se agrega opcion de guardar IP en un archivo
+        - Se agrega opcion de cargar IP en un archivo
+
+        V1.3
+        - Se agrega IP libre y guarda la ip actual
+        - Se agrega opcion de volver a la IP que tenia anteriormente.
+
+        V1.2
+        - Se agrega visibilidad de IP actual
+        - Se agrega opcion de cambiar IP manualmente
+        - Se agrega DHCP
+        - Se agrega opcion para hacer ping a google
+        - Se agrega boton de actualizar
+        - Se agrega instalacion de certificado UNNE
         */
-        private static String version = "V1.4";
+        private static String version = "V1.4.1";
         private static DateTime expira = DateTime.Parse("2022/01/28");
 
         public Form1()
@@ -28,6 +46,9 @@ namespace CambiarIP
         String ip_anterior = "";
         String mask_anterior = "";
         String puerta_anterior = "";
+        String mac = "";
+        String tipointerfaz = "";
+        String adaptador = "";
 
         public bool IsUserAdministrator()
         {
@@ -71,6 +92,10 @@ namespace CambiarIP
             IPHostEntry host;
             string localIP = "";
             string mascara = "";
+            mac = "";
+            tipointerfaz = "";
+            adaptador = "";
+
             host = Dns.GetHostEntry(Dns.GetHostName());
 
             foreach (IPAddress ip in host.AddressList)
@@ -88,6 +113,18 @@ namespace CambiarIP
                             {
                                 if (localIP.Equals(unicastIPAddressInformation.Address.ToString()))
                                 {
+                                    adaptador = adapter.Description.ToString();
+                                    tipointerfaz = adapter.NetworkInterfaceType.ToString();
+                                    mac = adapter.GetPhysicalAddress().ToString();
+
+                                    string macAddStrNew = mac;
+                                    int insertedCount = 0;
+                                    for (int i = 2; i < mac.Length; i = i + 2)
+                                    {
+                                        macAddStrNew = macAddStrNew.Insert(i + insertedCount++, ":");
+                                    }
+                                    mac = macAddStrNew;
+                                    //Console.WriteLine("MAC: " + macAddStrNew);
                                     mascara = unicastIPAddressInformation.IPv4Mask.ToString();
                                     break;
                                 }
@@ -363,6 +400,7 @@ namespace CambiarIP
             mask_anterior = mask1.Text + "." + mask2.Text + "." + mask3.Text + "." + mask4.Text;
             puerta_anterior = gate1.Text + "." + gate2.Text + "." + gate3.Text + "." + gate4.Text;
 
+
             try
             {
                 SaveFileDialog dialog = new SaveFileDialog();
@@ -378,6 +416,9 @@ namespace CambiarIP
                             sw.WriteLine(ip_anterior);
                             sw.WriteLine(mask_anterior);
                             sw.WriteLine(puerta_anterior);
+                            sw.WriteLine("\nAdaptador: "+adaptador);
+                            sw.WriteLine("Intefaz: "+tipointerfaz);
+                            sw.WriteLine("MAC ADDRESS: "+mac);
                         }
                     }
                     MessageBox.Show("IP Guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
