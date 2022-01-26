@@ -18,6 +18,7 @@ namespace CambiarIP
         /*
          V 1.4.1
         - Se agrega la MAC en el archivo de guardardo
+        - Se agrega MAC en el form principal
 
          V 1.4
         - Se eliminan salidas 18.253 y 18.252
@@ -72,11 +73,6 @@ namespace CambiarIP
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!IsUserAdministrator())
-            {
-                MessageBox.Show("Debe iniciarse en modo Administrador.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
             this.Text = "Cambiar IP - " + version;
             DateTime hoy = DateTime.Now;
             int result = DateTime.Compare(hoy, expira);
@@ -155,6 +151,8 @@ namespace CambiarIP
             gate2.Text = puerta_enlace[1];
             gate3.Text = puerta_enlace[2];
             gate4.Text = puerta_enlace[3];
+
+            mactxt.Text = mac;
         }
 
         public static IPAddress GetGateway()
@@ -195,6 +193,11 @@ namespace CambiarIP
 
         public void IP(string ip_address, string subnet_mask)
         {
+            if (!IsUserAdministrator())
+            {
+                MessageBox.Show("El programa debe iniciarse en modo Administrador.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
 
@@ -225,6 +228,11 @@ namespace CambiarIP
 
         public void Puerta_de_Enlace(string gateway, bool mostrarmsj = false, String msj = "")
         {
+            if (!IsUserAdministrator())
+            {
+                MessageBox.Show("El programa debe iniciarse en modo Administrador.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
 
@@ -254,6 +262,11 @@ namespace CambiarIP
 
         public void DNS(string DNS)
         {
+            if (!IsUserAdministrator())
+            {
+                MessageBox.Show("El programa debe iniciarse en modo Administrador.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
             ManagementObjectCollection objMOC = objMC.GetInstances();
 

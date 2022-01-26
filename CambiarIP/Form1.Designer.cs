@@ -50,6 +50,8 @@ namespace CambiarIP
             this.menu = new System.Windows.Forms.MenuStrip();
             this.salida = new System.Windows.Forms.ToolStripMenuItem();
             this.IPEdson = new System.Windows.Forms.ToolStripMenuItem();
+            this.cargarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.activarDHCPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ping = new System.Windows.Forms.ToolStripMenuItem();
             this.actializarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,8 +64,8 @@ namespace CambiarIP
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cargarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.guardarIPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label13 = new System.Windows.Forms.Label();
+            this.mactxt = new System.Windows.Forms.TextBox();
             this.menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -238,7 +240,7 @@ namespace CambiarIP
             this.certificadoToolStripMenuItem});
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(300, 24);
+            this.menu.Size = new System.Drawing.Size(293, 24);
             this.menu.TabIndex = 27;
             this.menu.Text = "menuStrip1";
             // 
@@ -259,6 +261,20 @@ namespace CambiarIP
             this.IPEdson.Size = new System.Drawing.Size(180, 22);
             this.IPEdson.Text = "IP Libre";
             this.IPEdson.Click += new System.EventHandler(this.IPEdson_Click);
+            // 
+            // cargarIPToolStripMenuItem
+            // 
+            this.cargarIPToolStripMenuItem.Name = "cargarIPToolStripMenuItem";
+            this.cargarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.cargarIPToolStripMenuItem.Text = "Cargar IP";
+            this.cargarIPToolStripMenuItem.Click += new System.EventHandler(this.cargarIPToolStripMenuItem_Click);
+            // 
+            // guardarIPToolStripMenuItem
+            // 
+            this.guardarIPToolStripMenuItem.Name = "guardarIPToolStripMenuItem";
+            this.guardarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.guardarIPToolStripMenuItem.Text = "Guardar IP";
+            this.guardarIPToolStripMenuItem.Click += new System.EventHandler(this.guardarIPToolStripMenuItem_Click);
             // 
             // activarDHCPToolStripMenuItem
             // 
@@ -291,10 +307,10 @@ namespace CambiarIP
             // Activar
             // 
             this.Activar.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Activar.Location = new System.Drawing.Point(112, 129);
+            this.Activar.Location = new System.Drawing.Point(109, 158);
             this.Activar.Name = "Activar";
             this.Activar.Size = new System.Drawing.Size(92, 30);
-            this.Activar.TabIndex = 13;
+            this.Activar.TabIndex = 14;
             this.Activar.Text = "Activar";
             this.Activar.UseVisualStyleBackColor = true;
             this.Activar.Click += new System.EventHandler(this.Activar_Click);
@@ -361,25 +377,32 @@ namespace CambiarIP
             this.label4.TabIndex = 33;
             this.label4.Text = ".";
             // 
-            // cargarIPToolStripMenuItem
+            // label13
             // 
-            this.cargarIPToolStripMenuItem.Name = "cargarIPToolStripMenuItem";
-            this.cargarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.cargarIPToolStripMenuItem.Text = "Cargar IP";
-            this.cargarIPToolStripMenuItem.Click += new System.EventHandler(this.cargarIPToolStripMenuItem_Click);
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(30, 129);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(48, 20);
+            this.label13.TabIndex = 35;
+            this.label13.Text = "MAC:";
             // 
-            // guardarIPToolStripMenuItem
+            // mactxt
             // 
-            this.guardarIPToolStripMenuItem.Name = "guardarIPToolStripMenuItem";
-            this.guardarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.guardarIPToolStripMenuItem.Text = "Guardar IP";
-            this.guardarIPToolStripMenuItem.Click += new System.EventHandler(this.guardarIPToolStripMenuItem_Click);
+            this.mactxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mactxt.Location = new System.Drawing.Point(84, 126);
+            this.mactxt.Name = "mactxt";
+            this.mactxt.ReadOnly = true;
+            this.mactxt.Size = new System.Drawing.Size(186, 26);
+            this.mactxt.TabIndex = 13;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 169);
+            this.ClientSize = new System.Drawing.Size(293, 196);
+            this.Controls.Add(this.mactxt);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.ip4);
             this.Controls.Add(this.ip3);
             this.Controls.Add(this.ip2);
@@ -457,6 +480,8 @@ namespace CambiarIP
         private System.Windows.Forms.ToolStripMenuItem IPEdson;
         private System.Windows.Forms.ToolStripMenuItem cargarIPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guardarIPToolStripMenuItem;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox mactxt;
     }
 }
 
