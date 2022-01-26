@@ -13,18 +13,24 @@ namespace CambiarIP
     public partial class Form1 : Form
     {
         /*
-         *  V1.2
+         *  V1.3
         */
+        private static String version = "V1.3";
+        private static DateTime expira= DateTime.Parse("2022/01/24");
+
         public Form1()
         {
             InitializeComponent();
         }
+        String ip_anterior = "";
+        String mask_anterior = "";
+        String puerta_anterior = "";
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DateTime exp = DateTime.Parse("2022/01/24");
+            this.Text = "Cambiar IP - " + version;
             DateTime hoy = DateTime.Now;
-            int result = DateTime.Compare(hoy, exp);
+            int result = DateTime.Compare(hoy, expira);
             if (result > 0)
             {
                 MessageBox.Show("ERROR", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -183,38 +189,6 @@ namespace CambiarIP
             }
         }
         
-        private void dhcpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObjectCollection objMOC = objMC.GetInstances();
-
-            foreach (ManagementObject objMO in objMOC)
-            {
-                if ((bool)objMO["IPEnabled"])
-                {
-                    try
-                    {
-                        ManagementBaseObject setGateway;
-                        ManagementBaseObject newGateway = objMO.GetMethodParameters("SetGateways");
-                        newGateway["DefaultIPGateway"] = null;
-                        newGateway["GatewayCostMetric"] = new int[] { 1 };
-                        setGateway = objMO.InvokeMethod("SetGateways", newGateway, null);
-
-                        objMO.InvokeMethod("SetDNSServerSearchOrder", new object[] { new string[0] });
-                        objMO.InvokeMethod("EnableDHCP", new object[] { });
-                        Form1_Load(sender, e);
-                        MessageBox.Show("Se activo DHCP en el adaptador\n" + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        break;
-                    }
-                    catch (Exception error)
-                    {
-                        MessageBox.Show("Error al activar DHCP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        throw;
-                    }
-                }
-            }
-        }
-
         public void DNS(string DNS)
         {
             ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
@@ -331,5 +305,60 @@ namespace CambiarIP
             }
         }
 
+        private void activarDHCPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ManagementClass objMC = new ManagementClass("Win32_NetworkAdapterConfiguration");
+            ManagementObjectCollection objMOC = objMC.GetInstances();
+
+            foreach (ManagementObject objMO in objMOC)
+            {
+                if ((bool)objMO["IPEnabled"])
+                {
+                    try
+                    {
+                        ManagementBaseObject setGateway;
+                        ManagementBaseObject newGateway = objMO.GetMethodParameters("SetGateways");
+                        newGateway["DefaultIPGateway"] = null;
+                        newGateway["GatewayCostMetric"] = new int[] { 1 };
+                        setGateway = objMO.InvokeMethod("SetGateways", newGateway, null);
+
+                        objMO.InvokeMethod("SetDNSServerSearchOrder", new object[] { new string[0] });
+                        objMO.InvokeMethod("EnableDHCP", new object[] { });
+                        Form1_Load(sender, e);
+                        MessageBox.Show("Se activo DHCP en el adaptador\n" + (string)objMO["Caption"], "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        break;
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show("Error al activar DHCP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private void IPEdson_Click(object sender, EventArgs e)
+        {
+            ip_anterior = ip1.Text + "." + ip2.Text + "." + ip3.Text + "." + ip4.Text;
+            mask_anterior = mask1.Text + "." + mask2.Text + "." + mask3.Text + "." + mask4.Text;
+            puerta_anterior = gate1.Text + "." + gate2.Text + "." + gate3.Text + "." + gate4.Text;
+            IP("172.16.25.230", "255.255.240.0");
+            DNS("8.8.8.8");
+            Puerta_de_Enlace("172.16.16.252", true, "IP Cambiada");
+            Form1_Load(sender, e);
+        }
+
+        private void ip_anterior_menu_Click(object sender, EventArgs e)
+        {
+            if(String.IsNullOrEmpty(ip_anterior))
+            {
+                MessageBox.Show("No hay IP guardada.", "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            IP(ip_anterior, mask_anterior);
+            DNS("8.8.8.8");
+            Puerta_de_Enlace(puerta_anterior, true, "IP Cambiada");
+            Form1_Load(sender, e);
+        }
     }
 }
