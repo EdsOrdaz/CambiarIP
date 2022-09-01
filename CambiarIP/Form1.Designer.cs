@@ -258,28 +258,28 @@ namespace CambiarIP
             // IPEdson
             // 
             this.IPEdson.Name = "IPEdson";
-            this.IPEdson.Size = new System.Drawing.Size(146, 22);
+            this.IPEdson.Size = new System.Drawing.Size(180, 22);
             this.IPEdson.Text = "IP Libre";
             this.IPEdson.Click += new System.EventHandler(this.IPEdson_Click);
             // 
             // cargarIPToolStripMenuItem
             // 
             this.cargarIPToolStripMenuItem.Name = "cargarIPToolStripMenuItem";
-            this.cargarIPToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.cargarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.cargarIPToolStripMenuItem.Text = "Cargar IP";
             this.cargarIPToolStripMenuItem.Click += new System.EventHandler(this.cargarIPToolStripMenuItem_Click);
             // 
             // guardarIPToolStripMenuItem
             // 
             this.guardarIPToolStripMenuItem.Name = "guardarIPToolStripMenuItem";
-            this.guardarIPToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.guardarIPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.guardarIPToolStripMenuItem.Text = "Guardar IP";
             this.guardarIPToolStripMenuItem.Click += new System.EventHandler(this.guardarIPToolStripMenuItem_Click);
             // 
             // activarDHCPToolStripMenuItem
             // 
             this.activarDHCPToolStripMenuItem.Name = "activarDHCPToolStripMenuItem";
-            this.activarDHCPToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.activarDHCPToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.activarDHCPToolStripMenuItem.Text = "Activar DHCP";
             this.activarDHCPToolStripMenuItem.Click += new System.EventHandler(this.activarDHCPToolStripMenuItem_Click);
             // 
@@ -395,6 +395,7 @@ namespace CambiarIP
             this.mactxt.ReadOnly = true;
             this.mactxt.Size = new System.Drawing.Size(186, 26);
             this.mactxt.TabIndex = 13;
+            this.mactxt.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mactxt_KeyUp);
             // 
             // Form1
             // 

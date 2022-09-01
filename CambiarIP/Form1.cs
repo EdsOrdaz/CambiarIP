@@ -38,7 +38,7 @@ namespace CambiarIP
         - Se agrega instalacion de certificado UNNE
         */
         private static String version = "V1.4.1";
-        private static DateTime expira = DateTime.Parse("2022/02/14");
+        private static DateTime expira = DateTime.Parse("2022/10/29");
 
         public Form1()
         {
@@ -485,6 +485,14 @@ namespace CambiarIP
             catch (Exception error)
             {
                 MessageBox.Show("Error al cargar la IP.\n\nError: " + error.Message, "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void mactxt_KeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode==Keys.F)
+            {
+                MessageBox.Show("Expira: " + expira.ToString("d"), "Cambiar IP", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
