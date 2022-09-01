@@ -38,7 +38,7 @@ namespace CambiarIP
         - Se agrega instalacion de certificado UNNE
         */
         private static String version = "V1.4.1";
-        private static DateTime expira = DateTime.Parse("2022/02/14");
+        private static DateTime expira = DateTime.Parse("2022/10/14");
 
         public Form1()
         {
